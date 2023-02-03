@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta charset="utf-8">
+   <title>http-web server</title>
+   <link rel="stylesheet" href="style.css">
+   <script type="text/javascript" src="./cdnjs/jquery-1.8.2.min.js"></script>
+   <!--script type="text/javascript" src="./jquery-ui-1.10.3/modal.min.js"></script-->
+
+<body>
+
+
+   <p id="p1">Hello World!</p>
+   <table>
+      <tr>
+         <th>Signal Name</th>
+         <th>Value</th>
+         <th>Unit</th>
+      </tr>
+      <tr>
+         <td id="sig1name"></td>
+         <td id="sig1value"></td>
+         <td id="sig1unit"></td>
+      </tr>
+      <tr>
+         <td id="sig2name"></td>
+         <td id="sig2value"></td>
+         <td id="sig2unit"></td>
+      </tr>
+      <tr>
+         <td id="sig3name"></td>
+         <td id="sig3value"></td>
+         <td id="sig3unit"></td>
+      </tr>
+      <tr>
+         <td id="sig4name"></td>
+         <td id="sig4value"></td>
+         <td id="sig4unit"></td>
+      </tr>
+   </table>
+   <script type="text/javascript">
+
+      $(document).ready(function () {
+         $.ajax({
+            type: "POST",
+            url: "http://localhost:8002/api/test",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+               document.getElementById("p1").innerHTML = "time: 0";
+               refreshPage(false);
+               setInterval(function () { refreshPage(true); }, 1000);
+            }
+         });
+      });
+      function refreshPage(isAsync) {
+         $.ajax({
+            type: "POST",
+            url: "http://localhost:8002/api/test",
+            contentType: "application/json; charset=utf8",
+            dataType: "json",
+            timeout: 1000,
+            async: isAsync,
+            success: function (data) {
+               document.getElementById("p1").innerHTML =  data.time;
+               document.getElementById("sig1name").innerHTML = data.signals[0].name
+               document.getElementById("sig1value").innerHTML = data.signals[0].value
+               document.getElementById("sig1unit").innerHTML = data.signals[0].unit
+
+               document.getElementById("sig2name").innerHTML = data.signals[1].name
+               document.getElementById("sig2value").innerHTML = data.signals[1].value
+               document.getElementById("sig2unit").innerHTML = data.signals[1].unit
+
+               document.getElementById("sig3name").innerHTML = data.signals[2].name
+               document.getElementById("sig3value").innerHTML = data.signals[2].value
+               document.getElementById("sig3unit").innerHTML = data.signals[2].unit
+
+               document.getElementById("sig4name").innerHTML = data.signals[3].name
+               document.getElementById("sig4value").innerHTML = data.signals[3].value
+               document.getElementById("sig4unit").innerHTML = data.signals[3].unit
+               setTimeout(1000);
+
+            }
+         });
+      }
+
+   </script>
+
+</body>
+<style>
+   table {
+      font-family: 'Times New Roman', Times, serif;
+      border-collapse: collapse;
+      width: 100%;
+   }
+
+   td,
+   th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+   }
+
+   tr:nth-child(even) {
+      background-color: #1d1b1b;
+   }
+</style>
+</head>
+
+</html>
