@@ -21,24 +21,31 @@ static void fn(struct mg_connection *c, int ev, void *ev_data, void *fn_data) {
         mg_http_reply(c, 500, NULL, "%s", "Parameters missing");
       }
     } else if (mg_http_match_uri(hm, "/api/test")) {
-      printf("backend was called\n");
-      time_t rawtime;
-      time(&rawtime);
-      struct tm *timeinfo;
-      timeinfo = localtime(&rawtime);
-      char buffer[80];
-      strftime(buffer, sizeof(buffer), " %H:%M:%S", timeinfo);
+      printf("backend called\n");
+      const char *file_path = "data.txt";
+
+      char buffer[64];
+      time_t raw_time;
+      struct tm *time_info;
+
+      time(&raw_time);
+      time_info = localtime(&raw_time);
+
+      strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", time_info);
+
+      // Open the file
+      FILE *fp = fopen(file_path, "r");
+
+      // Read the data from the file and store it in a buffer
+      char data[1024];
+      fread(data, sizeof(char), 1024, fp);
+
+      // Close the file
+      fclose(fp);
+
+      // Return the data in JSON format
       mg_http_reply(c, 200, "Content-Type: application/json\r\n",
-                    "{\"time\":\"%s\", \"signals\": [{\"name\": "
-                    "\"signal1\", \"value\" : \"10\", \"unit\" : "
-                    "\"celcius\"}, {\"name\": "
-                    "\"signal2\", \"value\" : \"20\", \"unit\": "
-                    "\"celcius\"}, {\"name\": "
-                    "\"signal3\", \"value\" : \"30\", \"unit\": "
-                    "\"celcius\"}, {\"name\": "
-                    "\"signal4\", \"value\" : \"35\", \"unit\": "
-                    "\"celcius\"} ]}\n",
-                    buffer);
+                    "{\"time\":\"%s\",\"signals\":%s}", buffer, data);
     } else {
       // mg_http_reply(c, 500, NULL, "%s", "Invalid URI");
       mg_http_serve_dir(c, ev_data, &opts);
