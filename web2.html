@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,11 +34,6 @@
          <td id="sig3name"></td>
          <td id="sig3value"></td>
          <td id="sig3unit"></td>
-      </tr>
-      <tr>
-         <td id="sig4name"></td>
-         <td id="sig4value"></td>
-         <td id="sig4unit"></td>
       </tr>
    </table>
    <script type="text/javascript">
@@ -77,9 +73,6 @@
                document.getElementById("sig3value").innerHTML = data.signals[2].value
                document.getElementById("sig3unit").innerHTML = data.signals[2].unit
 
-               document.getElementById("sig4name").innerHTML = data.signals[3].name
-               document.getElementById("sig4value").innerHTML = data.signals[3].value
-               document.getElementById("sig4unit").innerHTML = data.signals[3].unit
                setTimeout(1000);
 
             }
