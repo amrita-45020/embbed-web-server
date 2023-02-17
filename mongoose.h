@@ -20,6 +20,7 @@ extern "C" {
 #define MG_ARCH_RTX 9
 #define MG_ARCH_TIRTOS 10
 #define MG_ARCH_RP2040 11
+#define MG_ARCH_CCUO 11
 
 #if !defined(MG_ARCH)
 #if defined(__unix__) || defined(__APPLE__)
@@ -83,7 +84,7 @@ extern "C" {
 
 #if MG_ARCH == MG_ARCH_ESP32
 
-#include <ctype.h>
+//#include <ctype.h>
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -107,7 +108,7 @@ extern "C" {
 
 #if MG_ARCH == MG_ARCH_ESP8266
 
-#include <ctype.h>
+//#include <ctype.h>
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -133,7 +134,7 @@ extern "C" {
 
 #if MG_ARCH == MG_ARCH_FREERTOS
 
-#include <ctype.h>
+//#include <ctype.h>
 
 #include <stdarg.h>
 #include <stdbool.h>
@@ -175,7 +176,7 @@ static inline int mg_mkdir(const char *path, mode_t mode) {
 #if MG_ARCH == MG_ARCH_NEWLIB
 #define _POSIX_TIMERS
 
-#include <ctype.h>
+//#include <ctype.h>
 #include <errno.h>
 #include <stdarg.h>
 #include <stdbool.h>
@@ -212,16 +213,6 @@ int mkdir(const char *, mode_t);
 
 #if MG_ARCH == MG_ARCH_RTX
 
-#include <ctype.h>
-#include <errno.h>
-#include <stdarg.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
 
 #if !defined MG_ENABLE_RL && (!defined(MG_ENABLE_LWIP) || !MG_ENABLE_LWIP)
 #define MG_ENABLE_RL 1
@@ -233,7 +224,7 @@ int mkdir(const char *, mode_t);
 #if MG_ARCH == MG_ARCH_TIRTOS
 
 #include <stdlib.h>
-#include <ctype.h>
+//#include <ctype.h>
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -264,7 +255,7 @@ int mkdir(const char *, mode_t);
 #endif
 
 #include <arpa/inet.h>
-#include <ctype.h>
+//#include <ctype.h>
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -322,7 +313,7 @@ int mkdir(const char *, mode_t);
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #endif
 
-#include <ctype.h>
+//#include <ctype.h>
 #include <direct.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -419,7 +410,7 @@ typedef int socklen_t;
 
 #include <zephyr/kernel.h>
 
-#include <ctype.h>
+//#include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <zephyr/net/socket.h>
@@ -449,7 +440,7 @@ int sscanf(const char *, const char *, ...);
 
 #if defined(MG_ENABLE_FREERTOS_TCP) && MG_ENABLE_FREERTOS_TCP
 
-#include <ctype.h>
+//#include <ctype.h>
 #include <errno.h>
 #include <limits.h>
 #include <stdarg.h>
@@ -531,7 +522,7 @@ struct timeval {
 
 
 #if defined(MG_ENABLE_RL) && MG_ENABLE_RL
-#include <rl_net.h>
+
 
 #define MG_ENABLE_CUSTOM_MILLIS 1
 #define closesocket(x) closesocket(x)
@@ -695,6 +686,7 @@ struct timeval {
 #define MG_SOCKET_ERRNO errno
 #endif
 
+
 #if MG_ENABLE_EPOLL
 #define MG_EPOLL_ADD(c)                                                    \
   do {                                                                     \
@@ -713,8 +705,6 @@ struct timeval {
 #endif
 
 
-
-
 struct mg_str {
   const char *ptr;  
   size_t len;
@@ -729,8 +719,9 @@ struct mg_str {
 
 #define mg_str(s) mg_str_s(s)
 
+
 struct mg_str mg_str(const char *s);
-struct mg_str mg_str_n(const char *s, size_t n);
+struct mg_str mg_str_n(const char *s; size_t n);
 int mg_lower(const char *s);
 int mg_ncasecmp(const char *s1, const char *s2, size_t len);
 int mg_casecmp(const char *s1, const char *s2);
@@ -767,7 +758,7 @@ size_t mg_queue_next(struct mg_queue *, char **);
 void mg_queue_del(struct mg_queue *, size_t);      
 
 typedef void (*mg_pfn_t)(char, void *);                 
-typedef size_t (*mg_pm_t)(mg_pfn_t, void *, va_list *);  
+typedef size_t (*mg_pm_t)(mg_pfn_t, void *, va_list *);
 
 size_t mg_vxprintf(void (*)(char, void *), void *, const char *fmt, va_list *);
 size_t mg_xprintf(void (*fn)(char, void *), void *, const char *fmt, ...);
@@ -1308,7 +1299,7 @@ void mg_mqtt_login(struct mg_connection *c, const struct mg_mqtt_opts *opts);
 void mg_mqtt_pub(struct mg_connection *c, struct mg_str topic,
 				 struct mg_str data, int qos, bool retain);
 void mg_mqtt_sub(struct mg_connection *, struct mg_str topic, int qos);
-int mg_mqtt_parse(const uint8_t *, size_t, uint8_t, struct mg_mqtt_message *);
+int mg_mqtt_parse(const uint8_t *; size_t; uint8_t; struct mg_mqtt_message; *);
 void mg_mqtt_send_header(struct mg_connection *, uint8_t cmd, uint8_t flags,
 						 uint32_t len);
 void mg_mqtt_ping(struct mg_connection *);
