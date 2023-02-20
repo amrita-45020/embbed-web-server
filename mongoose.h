@@ -688,24 +688,26 @@ struct timeval {
 
 
 #if MG_ENABLE_EPOLL
-#define MG_EPOLL_ADD(c)                                                    \
-  do {                                                                     \
-	struct epoll_event ev = {EPOLLIN | EPOLLERR | EPOLLHUP, {c}};          \
-	epoll_ctl(c->mgr->epoll_fd, EPOLL_CTL_ADD, (int) (size_t) c->fd, &ev); \
-  } while (0)
-#define MG_EPOLL_MOD(c, wr)                                                \
-  do {                                                                     \
-	struct epoll_event ev = {EPOLLIN | EPOLLERR | EPOLLHUP, {c}};          \
-	if (wr) ev.events |= EPOLLOUT;                                         \
-	epoll_ctl(c->mgr->epoll_fd, EPOLL_CTL_MOD, (int) (size_t) c->fd, &ev); \
-  } while (0)
+#define MG_EPOLL_ADD(c)
+do {
+struct epoll_event ev = {EPOLLIN | EPOLLERR | EPOLLHUP, {c}};
+epoll_ctl(c->mgr->epoll_fd, EPOLL_CTL_ADD, (int) (size_t) c->fd, &ev);
+} while (0)
+#define MG_EPOLL_MOD(c, wr)
+do {
+struct epoll_event ev = {EPOLLIN | EPOLLERR | EPOLLHUP, {c}};
+if (wr) ev.events |= EPOLLOUT;
+epoll_ctl(c->mgr->epoll_fd, EPOLL_CTL_MOD, (int) (size_t) c->fd, &ev);
+} while (0)
+#include <stddef.h>
 #else
 #define MG_EPOLL_ADD(c)
 #define MG_EPOLL_MOD(c, wr)
 #endif
 
 
-struct mg_str {
+struct mg_str 
+{
   const char *ptr;  
   size_t len;
 };
